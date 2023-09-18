@@ -11,7 +11,7 @@ type GLTF struct {
 	Buffers            []*Buffer     `json:"buffers,omitempty"`            //An array of buffers. A buffer points to binary geometry, animation, or skins.
 	BufferViews        []*BufferView `json:"bufferViews,omitempty"`        //An array of bufferViews.  A bufferView is a view into a buffer generally representing a subset of the buffer.
 	Cameras            []*Camera     `json:"cameras,omitempty"`            //An array of cameras.  A camera defines a projection matrix.
-	Images             []*Imag       `json:"images,omitempty"`             //An array of images.  An image defines data used to create a texture.
+	Images             []*Image      `json:"images,omitempty"`             //An array of images.  An image defines data used to create a texture.
 	Materials          []*Material   `json:"materials,omitempty"`          //An array of materials.  A material defines the appearance of a primitive.
 	Meshes             []*Mesh       `json:"meshes,omitempty"`             //An array of meshes.  A mesh is a set of primitives to be rendered.
 	Nodes              []*Node       `json:"nodes,omitempty"`              //An array of nodes.

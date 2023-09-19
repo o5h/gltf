@@ -3,7 +3,7 @@ package gltf
 // A typed view into a buffer view that contains raw binary data.
 type Accessor struct {
 	ChildOfRootProperty
-	BufferView    *Id             `json:"bufferView,omitempty"` //The index of the buffer view. When undefined, the accessor **MUST** be initialized with zeros; `sparse` property or extensions **MAY** override zeros with actual values.
+	BufferView    *uint32         `json:"bufferView,omitempty"` //The index of the buffer view. When undefined, the accessor **MUST** be initialized with zeros; `sparse` property or extensions **MAY** override zeros with actual values.
 	ByteOffset    uint32          `json:"byteOffset,omitempty"` //The offset relative to the start of the buffer view in bytes.
 	ComponentType ComponentType   `json:"componentType"`        //The datatype of the accessor's components.  UNSIGNED_INT type **MUST NOT** be used for any accessor that is not referenced by `mesh.primitive.indices`.
 	Normalized    bool            `json:"normalized,omitempty"` //Specifies whether integer data values are normalized (`true`) to [0, 1] (for unsigned types) or to [-1, 1] (for signed types) when they are accessed. This property **MUST NOT** be set to `true` for accessors with `FLOAT` or `UNSIGNED_INT` component type.
@@ -25,7 +25,7 @@ type AccessorSparse struct {
 // An object pointing to a buffer view containing the indices of deviating accessor values. The number of indices is equal to `accessor.sparse.count`. Indices **MUST** strictly increase.
 type AccessorSparseIndices struct {
 	Property
-	BufferView    Id            `json:"bufferView"`           // The index of the buffer view with sparse indices. The referenced buffer view **MUST NOT** have its `target` or `byteStride` properties defined. The buffer view and the optional `byteOffset` **MUST** be aligned to the `componentType` byte length.
+	BufferView    uint32        `json:"bufferView"`           // The index of the buffer view with sparse indices. The referenced buffer view **MUST NOT** have its `target` or `byteStride` properties defined. The buffer view and the optional `byteOffset` **MUST** be aligned to the `componentType` byte length.
 	ByteOffset    uint32        `json:"byteOffset,omitempty"` //The offset relative to the start of the buffer view in bytes.
 	ComponentType ComponentType `json:"componentType"`        //The indices data type.
 }
@@ -33,6 +33,6 @@ type AccessorSparseIndices struct {
 // An object pointing to a buffer view containing the deviating accessor values. The number of elements is equal to `accessor.sparse.count` times number of components. The elements have the same component type as the base accessor. The elements are tightly packed. Data **MUST** be aligned following the same rules as the base accessor.
 type AccessorSparseValues struct {
 	Property
-	BufferView Id     `json:"bufferView,omitempty"` //The index of the bufferView with sparse values. The referenced buffer view **MUST NOT** have its `target` or `byteStride` properties defined.
+	BufferView uint32 `json:"bufferView,omitempty"` //The index of the bufferView with sparse values. The referenced buffer view **MUST NOT** have its `target` or `byteStride` properties defined.
 	ByteOffset uint32 `json:"byteOffset,omitempty"` //The offset relative to the start of the bufferView in bytes.
 }

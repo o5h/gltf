@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/o5h/scratch/testing/assert"
+	"github.com/o5h/testing/assert"
 )
 
 func TestXxx(t *testing.T) {

@@ -31,36 +31,36 @@ func convertRecoverToError(r interface{}) error {
 
 func decodeFrom(r io.Reader) *gltf.GLTF {
 	d := newDecoder(r)
-	doc := &gltf.GLTF{}
+	root := &gltf.GLTF{}
 	d.expectDelim('{')
 	for d.more() {
 		t := d.token()
 		switch t {
 		case "asset":
-			doc.Asset = decode[gltf.Asset](d)
+			root.Asset = decode[gltf.Asset](d, root)
 		case "scene":
-			doc.Scene = decode[uint32](d)
+			root.DefaultScene = decode[uint32](d, root)
 		case "scenes":
-			doc.Scenes = decodeArray[gltf.Scene](d)
+			root.Scenes = decodeArray[gltf.Scene](d, root)
 		case "nodes":
-			doc.Nodes = decodeArray[gltf.Node](d)
+			root.Nodes = decodeArray[gltf.Node](d, root)
 		case "materials":
-			doc.Materials = decodeArray[gltf.Material](d)
+			root.Materials = decodeArray[gltf.Material](d, root)
 		case "meshes":
-			doc.Meshes = decodeArray[gltf.Mesh](d)
+			root.Meshes = decodeArray[gltf.Mesh](d, root)
 		case "accessors":
-			doc.Accessors = decodeArray[gltf.Accessor](d)
+			root.Accessors = decodeArray[gltf.Accessor](d, root)
 		case "bufferViews":
-			doc.BufferViews = decodeArray[gltf.BufferView](d)
+			root.BufferViews = decodeArray[gltf.BufferView](d, root)
 		case "buffers":
-			doc.Buffers = decodeArray[gltf.Buffer](d)
+			root.Buffers = decodeArray[gltf.Buffer](d, root)
 		case "animations":
-			doc.Animations = decodeArray[gltf.Animation](d)
+			root.Animations = decodeArray[gltf.Animation](d, root)
 		case "skins":
-			doc.Skins = decodeArray[gltf.Skin](d)
+			root.Skins = decodeArray[gltf.Skin](d, root)
 		default:
 			panic(fmt.Sprintf("unsupported token `%v`", t))
 		}
 	}
-	return doc
+	return root
 }

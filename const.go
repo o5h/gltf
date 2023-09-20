@@ -10,15 +10,19 @@ type Path string
 type BufferType uint32
 type CameraType string
 type AlphaMode string
-type MeshPrimitiveMode uint8
+type DrawMode uint8
+
+type Component interface {
+	int8 | uint8 | int16 | uint16 | uint32 | float32
+}
 
 const (
-	ComponentType_BYTE           = ComponentType(GL_BYTE)
-	ComponentType_UNSIGNED_BYTE  = ComponentType(GL_UNSIGNED_BYTE)
-	ComponentType_SHORT          = ComponentType(GL_SHORT)
-	ComponentType_UNSIGNED_SHORT = ComponentType(GL_UNSIGNED_SHORT)
-	ComponentType_UNSIGNED_INT   = ComponentType(GL_UNSIGNED_INT)
-	ComponentType_FLOAT          = ComponentType(GL_FLOAT)
+	ComponentType_BYTE           = ComponentType(gl_BYTE)
+	ComponentType_UNSIGNED_BYTE  = ComponentType(gl_UNSIGNED_BYTE)
+	ComponentType_SHORT          = ComponentType(gl_SHORT)
+	ComponentType_UNSIGNED_SHORT = ComponentType(gl_UNSIGNED_SHORT)
+	ComponentType_UNSIGNED_INT   = ComponentType(gl_UNSIGNED_INT)
+	ComponentType_FLOAT          = ComponentType(gl_FLOAT)
 
 	AccessorType_SCALAR = AccessorType("SCALAR")
 	AccessorType_VEC2   = AccessorType("VEC2")
@@ -37,8 +41,8 @@ const (
 	Path_SCALE       = Path("scale")
 	Path_WEIGHTS     = Path("weights")
 
-	BufferType_ARRAY_BUFFER         = BufferType(GL_ARRAY_BUFFER)
-	BufferType_ELEMENT_ARRAY_BUFFER = BufferType(GL_ELEMENT_ARRAY_BUFFER)
+	BufferType_ARRAY_BUFFER         = BufferType(gl_ARRAY_BUFFER)
+	BufferType_ELEMENT_ARRAY_BUFFER = BufferType(gl_ELEMENT_ARRAY_BUFFER)
 
 	PERSPECTIVE  = CameraType("perspective")
 	ORTHOGRAPHIC = CameraType("orthographic")
@@ -50,11 +54,15 @@ const (
 	AlphaMode_MASK   = AlphaMode("MASK")
 	AlphaMode_BLEND  = AlphaMode("BLEND")
 
-	MeshPrimitiveMode_POINTS         = MeshPrimitiveMode(0)
-	MeshPrimitiveMode_LINES          = MeshPrimitiveMode(1)
-	MeshPrimitiveMode_LINE_LOOP      = MeshPrimitiveMode(2)
-	MeshPrimitiveMode_LINE_STRIP     = MeshPrimitiveMode(3)
-	MeshPrimitiveMode_TRIANGLES      = MeshPrimitiveMode(4)
-	MeshPrimitiveMode_TRIANGLE_STRIP = MeshPrimitiveMode(5)
-	MeshPrimitiveMode_TRIANGLE_FAN   = MeshPrimitiveMode(6)
+	DrawMode_POINTS         = DrawMode(0)
+	DrawMode_LINES          = DrawMode(1)
+	DrawMode_LINE_LOOP      = DrawMode(2)
+	DrawMode_LINE_STRIP     = DrawMode(3)
+	DrawMode_TRIANGLES      = DrawMode(4)
+	DrawMode_TRIANGLE_STRIP = DrawMode(5)
+	DrawMode_TRIANGLE_FAN   = DrawMode(6)
+)
+
+var (
+	octet_stream_base64_prefix = "data:application/octet-stream;base64,"
 )

@@ -1,7 +1,5 @@
 package gltf
 
-import "github.com/o5h/opt"
-
 // The root object for a glTF asset.
 type GLTF struct {
 	Property
@@ -23,15 +21,3 @@ type GLTF struct {
 	Skins              []*Skin       `json:"skins,omitempty"`              //An array of skins.  A skin is defined by joints and matrices.
 	Textures           []*Texture    `json:"textures,omitempty"`           //An array of textures.
 }
-
-func (gltf *GLTF) GetAccessor(i int) opt.O[Accessor]     { return opt.At(gltf.Accessors, i) }
-func (gltf *GLTF) GetAnimation(i int) opt.O[Animation]   { return opt.At(gltf.Animations, i) }
-func (gltf *GLTF) GetBufferView(i int) opt.O[BufferView] { return opt.At(gltf.BufferViews, i) }
-func (gltf *GLTF) GetBuffer(i int) opt.O[Buffer]         { return opt.At(gltf.Buffers, i) }
-func (gltf *GLTF) GetCamera(i int) opt.O[Camera]         { return opt.At(gltf.Cameras, i) }
-func (gltf *GLTF) GetImage(i int) opt.O[Image]           { return opt.At(gltf.Images, i) }
-func (gltf *GLTF) GetMaterial(i int) opt.O[Material]     { return opt.At(gltf.Materials, i) }
-func (gltf *GLTF) GetMesh(i int) opt.O[Mesh]             { return opt.At(gltf.Meshes, i) }
-func (gltf *GLTF) GetNodes(i int) opt.O[Node]            { return opt.At(gltf.Nodes, i) }
-func (gltf *GLTF) GetSampler(i int) opt.O[Sampler]       { return opt.At(gltf.Samplers, i) }
-func (gltf *GLTF) GetDefaultScene(i int) opt.O[uint32]   { return opt.Of(gltf.DefaultScene) }

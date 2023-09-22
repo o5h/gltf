@@ -1,12 +1,12 @@
 package gltf
 
 const (
-	gl_BYTE           = 0x1400
-	gl_UNSIGNED_BYTE  = 0x1401
-	gl_SHORT          = 0x1402
-	gl_UNSIGNED_SHORT = 0x1403
-	gl_UNSIGNED_INT   = 0x1405
-	gl_FLOAT          = 0x1406
+	gl_BYTE           = 5120 //0x1400
+	gl_UNSIGNED_BYTE  = 5121 //0x1401
+	gl_SHORT          = 5122 //0x1402
+	gl_UNSIGNED_SHORT = 5123 //0x1403
+	gl_UNSIGNED_INT   = 5125 //0x1405
+	gl_FLOAT          = 5126 //0x1406
 
 	gl_NEAREST                = 0x2600
 	gl_LINEAR                 = 0x2601

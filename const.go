@@ -1,6 +1,11 @@
 package gltf
 
 type ComponentType uint32
+type Component interface {
+	int8 | uint8 | int16 | uint16 | uint32 | float32
+}
+type IndexComponent interface{ uint8 | uint16 | uint32 }
+
 type AccessorType string
 type Interpolation string //Interpolation algorithm
 
@@ -10,11 +15,7 @@ type Path string
 type BufferType uint32
 type CameraType string
 type AlphaMode string
-type DrawMode uint8
-
-type Component interface {
-	int8 | uint8 | int16 | uint16 | uint32 | float32
-}
+type MeshPrimitiveMode uint8
 
 const (
 	ComponentType_BYTE           = ComponentType(gl_BYTE)
@@ -54,15 +55,54 @@ const (
 	AlphaMode_MASK   = AlphaMode("MASK")
 	AlphaMode_BLEND  = AlphaMode("BLEND")
 
-	DrawMode_POINTS         = DrawMode(0)
-	DrawMode_LINES          = DrawMode(1)
-	DrawMode_LINE_LOOP      = DrawMode(2)
-	DrawMode_LINE_STRIP     = DrawMode(3)
-	DrawMode_TRIANGLES      = DrawMode(4)
-	DrawMode_TRIANGLE_STRIP = DrawMode(5)
-	DrawMode_TRIANGLE_FAN   = DrawMode(6)
+	MeshPrimitiveMode_POINTS         = MeshPrimitiveMode(0)
+	MeshPrimitiveMode_LINES          = MeshPrimitiveMode(1)
+	MeshPrimitiveMode_LINE_LOOP      = MeshPrimitiveMode(2)
+	MeshPrimitiveMode_LINE_STRIP     = MeshPrimitiveMode(3)
+	MeshPrimitiveMode_TRIANGLES      = MeshPrimitiveMode(4)
+	MeshPrimitiveMode_TRIANGLE_STRIP = MeshPrimitiveMode(5)
+	MeshPrimitiveMode_TRIANGLE_FAN   = MeshPrimitiveMode(6)
 )
 
 var (
 	octet_stream_base64_prefix = "data:application/octet-stream;base64,"
 )
+
+func (t AccessorType) Size() uint32 {
+	switch t {
+	case AccessorType_SCALAR:
+		return 1
+	case AccessorType_VEC2:
+		return 2
+	case AccessorType_VEC3:
+		return 3
+	case AccessorType_VEC4:
+		return 4
+	case AccessorType_MAT2:
+		return 2 * 2
+	case AccessorType_MAT3:
+		return 3 * 3
+	case AccessorType_MAT4:
+		return 4 * 4
+	}
+	return 1
+}
+
+func ComponentTypeOf[T Component]() ComponentType {
+	var t T
+	switch any(t).(type) {
+	case int8:
+		return ComponentType_BYTE
+	case uint8:
+		return ComponentType_UNSIGNED_BYTE
+	case int16:
+		return ComponentType_SHORT
+	case uint16:
+		return ComponentType_UNSIGNED_SHORT
+	case uint32:
+		return ComponentType_UNSIGNED_INT
+	case float32:
+		return ComponentType_FLOAT
+	}
+	return ComponentType_BYTE
+}

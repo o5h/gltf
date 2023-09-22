@@ -1,11 +1,5 @@
 package gltf
 
-import (
-	"unsafe"
-
-	"github.com/o5h/opt"
-)
-
 // A typed view into a buffer view that contains raw binary data.
 type Accessor struct {
 	ChildOfRootProperty
@@ -41,39 +35,4 @@ type AccessorSparseValues struct {
 	Property
 	BufferView uint32 `json:"bufferView,omitempty"` //The index of the bufferView with sparse values. The referenced buffer view **MUST NOT** have its `target` or `byteStride` properties defined.
 	ByteOffset uint32 `json:"byteOffset,omitempty"` //The offset relative to the start of the bufferView in bytes.
-}
-
-func (a *Accessor) GetBufferView() opt.O[uint32] { return opt.Of(a.BufferView) }
-
-func IsComponent[T Component](a *Accessor) bool {
-	var t T
-	switch any(t).(type) {
-	case int8:
-		return a.ComponentType == ComponentType_BYTE
-	case uint8:
-		return a.ComponentType == ComponentType_UNSIGNED_BYTE
-	case int16:
-		return a.ComponentType == ComponentType_SHORT
-	case uint16:
-		return a.ComponentType == ComponentType_UNSIGNED_SHORT
-	case uint32:
-		return a.ComponentType == ComponentType_UNSIGNED_INT
-	case float32:
-		return a.ComponentType == ComponentType_FLOAT
-	}
-	return false
-}
-
-func GetAccessorBuffer[T Component](a *Accessor) []T {
-	if !IsComponent[T](a) {
-		return nil
-	}
-	if index := a.GetBufferView(); index.Ok() {
-		if view := a.Root.GetBufferView(int(*index.V)); view.Ok() {
-			buf := view.V.Bytes()
-			cptr := (*T)(unsafe.Pointer(&buf[0]))
-			return unsafe.Slice(cptr, 3)
-		}
-	}
-	return nil
 }

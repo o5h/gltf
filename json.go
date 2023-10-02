@@ -58,6 +58,12 @@ func decodeFrom(r io.Reader) *GLTF {
 			root.Animations = decodeArray[Animation](d, root)
 		case "skins":
 			root.Skins = decodeArray[Skin](d, root)
+		case "textures":
+			root.Textures = decodeArray[Texture](d, root)
+		case "images":
+			root.Images = decodeArray[Image](d, root)
+		case "samplers":
+			root.Samplers = decodeArray[Sampler](d, root)
 		default:
 			panic(fmt.Sprintf("unsupported token `%v`", t))
 		}

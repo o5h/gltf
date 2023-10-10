@@ -9,3 +9,9 @@ type BufferView struct {
 	Stride uint8      `json:"byteStride,omitempty"` //The stride, in bytes, between vertex attributes.  When this is not defined, data is tightly packed. When two or more accessors use the same buffer view, this field **MUST** be defined.
 	Target BufferType `json:"target,omitempty"`     //The hint representing the intended GPU buffer type to use with this buffer view.
 }
+
+func BufferView_Bytes(view *BufferView) []byte {
+	b := view.Root.Buffers[view.Buffer]
+	bytes := b.Bytes()
+	return bytes[view.Offset : view.Offset+view.Length]
+}

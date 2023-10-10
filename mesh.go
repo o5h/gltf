@@ -1,5 +1,7 @@
 package gltf
 
+import "github.com/o5h/opt"
+
 // A set of primitives to be rendered.  Its global transform is defined by a node that references it.
 type Mesh struct {
 	ChildOfRootProperty
@@ -18,3 +20,30 @@ type MeshPrimitive struct {
 }
 
 type MeshPrimitiveAttributes map[string]uint32
+
+func Mesh_IndexBuffer[T IndexComponent](mesh *Mesh, primitiveIndex int) []T {
+	primitive := opt.At(mesh.Primitives, primitiveIndex)
+	if !primitive.Ok() {
+		return nil
+	}
+	indexAccessorId := opt.Of(primitive.V.Indices)
+	if !indexAccessorId.Ok() {
+		return nil
+	}
+	accessor := mesh.Root.Accessors[*indexAccessorId.V]
+	return Accessor_Buffer[T, T](accessor)
+}
+
+func Mesh_AttributeBuffer[C Component, T Type](mesh *Mesh, primitiveIndex int, attrName string) []T {
+	primitive := opt.At(mesh.Primitives, primitiveIndex)
+	if !primitive.Ok() {
+		return nil
+	}
+	attr, ok := primitive.V.Attributes[attrName]
+	if !ok {
+		return nil
+	}
+	accessor := mesh.Root.Accessors[attr]
+	return Accessor_Buffer[C, T](accessor)
+
+}

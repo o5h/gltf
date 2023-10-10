@@ -1,5 +1,7 @@
 package gltf
 
+import "unsafe"
+
 // A typed view into a buffer view that contains raw binary data.
 type Accessor struct {
 	ChildOfRootProperty
@@ -35,4 +37,15 @@ type AccessorSparseValues struct {
 	Property
 	BufferView uint32 `json:"bufferView,omitempty"` //The index of the bufferView with sparse values. The referenced buffer view **MUST NOT** have its `target` or `byteStride` properties defined.
 	ByteOffset uint32 `json:"byteOffset,omitempty"` //The offset relative to the start of the bufferView in bytes.
+}
+
+func Accessor_Buffer[C Component, T Type](accessor *Accessor) []T {
+	if ComponentTypeOf[C]() != accessor.ComponentType {
+		return nil
+	}
+	index := accessor.BufferView
+	view := accessor.Root.BufferViews[*index]
+	buf := BufferView_Bytes(view)
+	cptr := (*T)(unsafe.Pointer(&buf[accessor.ByteOffset]))
+	return unsafe.Slice(cptr, accessor.Count)
 }

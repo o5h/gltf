@@ -1,5 +1,11 @@
 package gltf
 
+import (
+	"github.com/o5h/glm/vec2"
+	"github.com/o5h/glm/vec3"
+	"github.com/o5h/glm/vec4"
+)
+
 // The root object for a glTF asset.
 type GLTF struct {
 	Property
@@ -20,4 +26,14 @@ type GLTF struct {
 	Scenes             []*Scene      `json:"scenes,omitempty"`             //An array of scenes.
 	Skins              []*Skin       `json:"skins,omitempty"`              //An array of skins.  A skin is defined by joints and matrices.
 	Textures           []*Texture    `json:"textures,omitempty"`           //An array of textures.
+}
+
+// Although `extras` **MAY** have any type, it is common for applications to store and access custom data as key/value pairs. Therefore, `extras` **SHOULD** be a JSON object rather than a primitive value for best portability.
+type Extras map[string]any
+
+type Vec2 struct{ X, Y float32 }
+type Vec3 struct{ X, Y, Z float32 }
+type Vec4 struct{ X, Y, Z, W float32 }
+type Type interface {
+	Component | vec2.Vec2 | vec3.Vec3 | vec4.Vec4
 }

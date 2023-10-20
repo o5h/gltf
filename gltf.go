@@ -1,11 +1,5 @@
 package gltf
 
-import (
-	"github.com/o5h/glm/vec2"
-	"github.com/o5h/glm/vec3"
-	"github.com/o5h/glm/vec4"
-)
-
 // The root object for a glTF asset.
 type GLTF struct {
 	Property
@@ -35,5 +29,5 @@ type Vec2 struct{ X, Y float32 }
 type Vec3 struct{ X, Y, Z float32 }
 type Vec4 struct{ X, Y, Z, W float32 }
 type Type interface {
-	Component | vec2.Vec2 | vec3.Vec3 | vec4.Vec4
+	Component | Vec2 | Vec3 | Vec4
 }
